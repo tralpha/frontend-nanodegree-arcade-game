@@ -1,4 +1,3 @@
-
 //An array which holds the paths for the bug enemies.
 var paths = [63, 146, 229];
 
@@ -20,6 +19,8 @@ var Enemy = function(x, y, speed) {
     this.x = x;
     this.y = y;
     this.speed = speed;
+    this.size = [101, 63];
+    this.pos = [this.x, this.y];
 }
 
 // Update the enemy's position, required method for game
@@ -57,6 +58,8 @@ var Player = function(x, y) {
     Enemy.call(this, x, y);
 
     this.sprite = 'images/char-boy.png';
+    this.size = [91, 83];
+    this.pos = [this.x, this.y];
 
 };
 
@@ -85,9 +88,6 @@ Player.prototype.handleInput = function(code){
             break;
     }
 }
-
-
-
 
 
 // Now instantiate your objects.
@@ -122,4 +122,33 @@ document.addEventListener('keyup', function(e) {
     player.handleInput(allowedKeys[e.keyCode]);
 });
 
-//Write down the functions for checking
+//Write down the functions for checking collisions 
+function collides(x, y, r, b, x2, y2, r2, b2) {
+    return !(r<=x2 || x>r2 ||
+        b<=y2 || y>b2);
+}
+
+function boxCollides(pos, size, pos2, size2) {
+    return collides(pos[0], pos[1],
+        pos[0]+size[0], pos[1]+size[1],
+        pos2[0], pos2[1],
+        pos2[0]+size2[0], pos2[1]+size2[1]);
+}
+
+
+
+function checkCollisions() {
+    //Run collision detection for all enemies and player
+    for (var i = 0; i<allEnemies.length; i++) {
+        var size = allEnemies[i].size;
+        var pos = allEnemies[i].pos;
+        //console.log(allEnemies[i]);
+        if (boxCollides(pos, size, player.pos, player.size)) {
+            //console.log("ralph");
+            player.x = 202;
+            player.y = 312;
+        }
+    }
+}
+
+
