@@ -123,22 +123,6 @@ var collides = function(x, y, r, b, x2, y2, r2, b2) {
              b <= y2 || y > b2);
 }
 
-var colides = function(x, y, r, b, x2, y2, r2, b2) {
-    return (x2 <= r 
-        && x <= r2 
-        && y2 <= b
-        && y <= b2);
-}
-
-var boxCollides = function(pos, size, pos2, size2) {
-    return colides(pos[0], pos[1],
-                    pos[0] + size[0], pos[1] + size[1],
-                    pos2[0], pos2[1],
-                    pos2[0] + size2[0], pos2[1] + size2[1]);
-}
-
-
-
 
 function checkCollisions() {
     //Run collision detection for all enemies and player
