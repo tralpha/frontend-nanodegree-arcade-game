@@ -1,4 +1,3 @@
-//An array which holds the paths for the bug enemies.
 var paths = [63, 146, 229];
 
 //A utility function to randomly generate an integer, which will be used
@@ -19,8 +18,6 @@ var Enemy = function(x, y, speed) {
     this.x = x;
     this.y = y;
     this.speed = speed;
-    this.size = [101, 63];
-    this.pos = [this.x, this.y];
 }
 
 // Update the enemy's position, required method for game
@@ -58,8 +55,6 @@ var Player = function(x, y) {
     Enemy.call(this, x, y);
 
     this.sprite = 'images/char-boy.png';
-    this.size = [91, 83];
-    this.pos = [this.x, this.y];
 
 };
 
@@ -104,7 +99,7 @@ var t_bad = new Enemy(-101, 226, randomInt(100, 400));
 var allEnemies = [];
 allEnemies.push(f_bad, s_bad, t_bad);
 
-var player = new Player(202, 312);
+var player = new Player(202, 395);
 
 
 
@@ -123,32 +118,42 @@ document.addEventListener('keyup', function(e) {
 });
 
 //Write down the functions for checking collisions 
-function collides(x, y, r, b, x2, y2, r2, b2) {
-    return !(r<=x2 || x>r2 ||
-        b<=y2 || y>b2);
+var collides = function(x, y, r, b, x2, y2, r2, b2) {
+    return !(r <= x2 || x > r2 ||
+             b <= y2 || y > b2);
 }
 
-function boxCollides(pos, size, pos2, size2) {
-    return collides(pos[0], pos[1],
-        pos[0]+size[0], pos[1]+size[1],
-        pos2[0], pos2[1],
-        pos2[0]+size2[0], pos2[1]+size2[1]);
+var colides = function(x, y, r, b, x2, y2, r2, b2) {
+    return (x2 <= r 
+        && x <= r2 
+        && y2 <= b
+        && y <= b2);
 }
+
+var boxCollides = function(pos, size, pos2, size2) {
+    return colides(pos[0], pos[1],
+                    pos[0] + size[0], pos[1] + size[1],
+                    pos2[0], pos2[1],
+                    pos2[0] + size2[0], pos2[1] + size2[1]);
+}
+
 
 
 
 function checkCollisions() {
     //Run collision detection for all enemies and player
     for (var i = 0; i<allEnemies.length; i++) {
-        var size = allEnemies[i].size;
-        var pos = allEnemies[i].pos;
-        //console.log(allEnemies[i]);
-        if (boxCollides(pos, size, player.pos, player.size)) {
-            //console.log("ralph");
+        if (collides(allEnemies[i].x, allEnemies[i].y, allEnemies[i].x+70,
+         allEnemies[i].y+70, player.x, player.y, player.x+50, player.y+70)){
             player.x = 202;
-            player.y = 312;
+            player.y = 395;
         }
     }
 }
+
+
+
+
+
 
 
